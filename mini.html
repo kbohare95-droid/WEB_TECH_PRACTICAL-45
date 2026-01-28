@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #9face6);
+        }
+
+        .container {
+            width: 360px;
+            background-color: white;
+            padding: 25px;
+            margin: 70px auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            font-size: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calc-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .underweight { background-color: #bbdefb; }
+        .normal { background-color: #c8e6c9; }
+        .overweight { background-color: #ffe0b2; }
+        .obese { background-color: #ffcdd2; }
+
+        .result h3 {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>BMI Calculator</h2>
+
+    <label>Age</label>
+    <input type="number" id="age" placeholder="Enter age">
+
+    <label>Gender</label>
+    <select id="gender">
+        <option value="">Select gender</option>
+        <option>Male</option>
+        <option>Female</option>
+    </select>
+
+    <label>Weight (kg)</label>
+    <input type="number" id="weight" placeholder="Enter weight">
+
+    <label>Height (cm)</label>
+    <input type="number" id="height" placeholder="Enter height">
+
+    <div class="btn-group">
+        <button class="calc-btn" onclick="calculateBMI()">Calculate</button>
+        <button class="reset-btn" onclick="resetForm()">Reset</button>
+    </div>
+
+    <div class="result" id="resultBox">
+        <h3 id="userInfo"></h3>
+        <h3 id="bmiValue"></h3>
+        <h3 id="bmiCategory"></h3>
+    </div>
+</div>
+
+<script>
+    function calculateBMI() {
+        var age = document.getElementById("age").value;
+        var gender = document.getElementById("gender").value;
+        var weight = document.getElementById("weight").value;
+        var height = document.getElementById("height").value;
+
+        if (age == "" || gender == "" || weight == "" || height == "") {
+            alert("Please fill all details");
+            return;
+        }
+
+        height = height / 100;
+        var bmi = (weight / (height * height)).toFixed(2);
+
+        var category = "";
+        var resultClass = "";
+
+        if (bmi < 18.5) {
+            category = "Underweight";
+            resultClass = "underweight";
+        } else if (bmi < 25) {
+            category = "Normal Weight";
+            resultClass = "normal";
+        } else if (bmi < 30) {
+            category = "Overweight";
+            resultClass = "overweight";
+        } else {
+            category = "Obese";
+            resultClass = "obese";
+        }
+
+        var resultBox = document.getElementById("resultBox");
+        resultBox.className = "result " + resultClass;
+        resultBox.style.display = "block";
+
+        document.getElementById("userInfo").innerHTML =
+            "Age: " + age + " | Gender: " + gender;
+
+        document.getElementById("bmiValue").innerHTML =
+            "BMI: " + bmi;
+
+        document.getElementById("bmiCategory").innerHTML =
+            "Category: " + category;
+    }
+
+    function resetForm() {
+        document.getElementById("age").value = "";
+        document.getElementById("gender").value = "";
+        document.getElementById("weight").value = "";
+        document.getElementById("height").value = "";
+
+        document.getElementById("resultBox").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
